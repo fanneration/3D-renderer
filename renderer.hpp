@@ -29,7 +29,7 @@ string screen[26]={"                                                            
                     "                                                                                                                       ",
                     "                                                                                                                       ",
                     "                                                                                                                       ",
-                    "                                                                                                                       "};
+                    "                                                                                                                       "},screen2[26];
 double arraydistance[61],arraypx[61];
 void distance(double x1,double x2,double y1,double y2){
     double slope=(y1-y2)/(x1-x2);
@@ -47,26 +47,46 @@ void px(double x1,double x2,double y1,double y2){
         }
     }
 }
-void render(vector<pair<double,double>> points,vector<pair<int,int>> lines){
+void render(vector<pair<double,double>> points,vector<pair<int,int>> lines,vector<string*> textures){
+    int pxsize=0;
+    int pxpos=0;
     for (int i=0;i<26;i++){
         screen[i]="                                                                                                                       ";
+        screen2[i]="                                                                                                                       ";
     }
     for (int i=0;i<lines.size();i++){
+        pxsize=0;
+        pxpos=0;
         distance(points[lines[i].first].first,points[lines[i].second].first,points[lines[i].first].second,points[lines[i].second].second);
         px(points[lines[i].first].first,points[lines[i].second].first,points[lines[i].first].second,points[lines[i].second].second);
         for (int j=0;j<61;j++){
             if (arraypx[j]!=-1){
+                pxsize++;
+            }
+        }
+        for (int j=0;j<61;j++){
+            if (arraypx[j]!=-1){
                 for (int k=0;k<26/arraydistance[j]&&arraydistance!=0;k++){
-                    if (!(12-13/arraydistance[j]+k<0||12-13/arraydistance[j]+k>25)){
+                    if (!(13-13/arraydistance[j]+k<0||13-13/arraydistance[j]+k>25)){
                         if (arraydistance[j]<=5){
-                            screen[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='#';
-                        }else if (arraydistance[j]>5&&arraydistance[j]<=10&&screen[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'){
-                            screen[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='=';
-                        }else if (arraydistance[j]>10&&arraydistance[j]<=15&&screen[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'&&screen[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='='){
-                            screen[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='.';
+                            screen2[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='#';
+                            if (textures[i][(int)(16*k/(26/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
+                                screen[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='#';
+                            }
+                        }else if (arraydistance[j]>5&&arraydistance[j]<=10&&screen2[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'){
+                            screen2[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='=';
+                            if (textures[i][(int)(16*k/(26/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
+                                screen[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='=';
+                            }
+                        }else if (arraydistance[j]>10&&arraydistance[j]<=15&&screen2[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'&&screen2[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='='){
+                            screen2[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='.';
+                            if (textures[i][(int)(16*k/(26/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
+                                screen[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='.';
+                            }
                         }
                     }
                 }
+                pxpos++;
             }
         }
     }
