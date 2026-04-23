@@ -47,7 +47,7 @@ void px(double x1,double x2,double y1,double y2){
         }
     }
 }
-void render(vector<pair<double,double>> points,vector<pair<int,int>> lines,vector<string*> textures){
+void render(vector<pair<double,double>> points,vector<pair<pair<int,int>,pair<double,double>>> lines,vector<string*> textures){
     int pxsize=0;
     int pxpos=0;
     for (int i=0;i<26;i++){
@@ -57,8 +57,8 @@ void render(vector<pair<double,double>> points,vector<pair<int,int>> lines,vecto
     for (int i=0;i<lines.size();i++){
         pxsize=0;
         pxpos=0;
-        distance(points[lines[i].first].first,points[lines[i].second].first,points[lines[i].first].second,points[lines[i].second].second);
-        px(points[lines[i].first].first,points[lines[i].second].first,points[lines[i].first].second,points[lines[i].second].second);
+        distance(points[lines[i].first.first].first,points[lines[i].first.second].first,points[lines[i].first.first].second,points[lines[i].first.second].second);
+        px(points[lines[i].first.first].first,points[lines[i].first.second].first,points[lines[i].first.first].second,points[lines[i].first.second].second);
         for (int j=0;j<61;j++){
             if (arraypx[j]!=-1){
                 pxsize++;
@@ -66,22 +66,22 @@ void render(vector<pair<double,double>> points,vector<pair<int,int>> lines,vecto
         }
         for (int j=0;j<61;j++){
             if (arraypx[j]!=-1){
-                for (int k=0;k<26/arraydistance[j]&&arraydistance!=0;k++){
-                    if (!(13-13/arraydistance[j]+k<0||13-13/arraydistance[j]+k>25)){
+                for (int k=0;k<(lines[i].second.first+lines[i].second.second)/arraydistance[j]&&arraydistance!=0;k++){
+                    if (!(13-lines[i].second.second/arraydistance[j]+k<0||13-lines[i].second.second/arraydistance[j]+k>25)){
                         if (arraydistance[j]<=5){
-                            screen2[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='#';
-                            if (textures[i][(int)(16*k/(26/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
-                                screen[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='#';
+                            screen2[(int)(13-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='#';
+                            if (textures[i][(int)(16*k/((lines[i].second.first+lines[i].second.second)/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
+                                screen[(int)(13-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='#';
                             }
-                        }else if (arraydistance[j]>5&&arraydistance[j]<=10&&screen2[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'){
-                            screen2[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='=';
-                            if (textures[i][(int)(16*k/(26/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
-                                screen[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='=';
+                        }else if (arraydistance[j]>5&&arraydistance[j]<=10&&screen2[(int)(12-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'){
+                            screen2[(int)(13-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='=';
+                            if (textures[i][(int)(16*k/((lines[i].second.first+lines[i].second.second)/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
+                                screen[(int)(13-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='=';
                             }
-                        }else if (arraydistance[j]>10&&arraydistance[j]<=15&&screen2[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'&&screen2[(int)(12-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='='){
-                            screen2[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='.';
-                            if (textures[i][(int)(16*k/(26/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
-                                screen[(int)(13-13/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='.';
+                        }else if (arraydistance[j]>10&&arraydistance[j]<=15&&screen2[(int)(12-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='#'&&screen2[(int)(12-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]!='='){
+                            screen2[(int)(13-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='.';
+                            if (textures[i][(int)(16*k/((lines[i].second.first+lines[i].second.second)/arraydistance[j]))][(int)(16*pxpos/pxsize)]=='#'){
+                                screen[(int)(13-lines[i].second.second/arraydistance[j]+k)][(int)(120*arraypx[j]+59)]='.';
                             }
                         }
                     }
